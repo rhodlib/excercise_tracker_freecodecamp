@@ -1,11 +1,11 @@
+//Imports
 const express = require('express')
+require("./src/db/mongoose");
 const app = express()
 const bodyParser = require('body-parser')
-
 const cors = require('cors')
+const userRouter = require("./src/routes/user");
 
-const mongoose = require('mongoose')
-mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost/exercise-track' )
 
 app.use(cors())
 
@@ -42,6 +42,8 @@ app.use((err, req, res, next) => {
   res.status(errCode).type('txt')
     .send(errMessage)
 })
+
+app.use(userRouter);
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
